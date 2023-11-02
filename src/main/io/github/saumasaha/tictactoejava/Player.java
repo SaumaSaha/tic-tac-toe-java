@@ -29,7 +29,7 @@ public class Player {
   }
 
   public MyArrayList<Move> movesPlayed() {
-    return this.moves;
+    return new MyArrayList<>(this.moves);
   }
 
   public boolean hasPlayed(Integer[] moves) {

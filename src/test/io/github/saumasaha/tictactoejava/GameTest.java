@@ -73,22 +73,22 @@ public class GameTest {
 
 
   private GameState getFirstGameState() {
-    return new GameState(new MyArrayList<>(this.getFirstList()), this.sourov, false, false, null);
+    return new GameState(new MyArrayList<>(this.getFirstList()), this.sourov, false, false);
   }
 
   private GameState getDrawGameState() {
-    return new GameState(this.getDrawMoves(), this.sauma, true, false, null);
+    return new GameState(this.getDrawMoves(), this.sauma, true, false);
   }
 
   private GameState getWinGameStatePlayer1() {
-    return new GameState(this.getWinMovesPlayer1(), this.sauma, false, true, this.sauma);
+    return new GameState(this.getWinMovesPlayer1(), this.sauma, false, true);
   }
 
   private GameState getWinGameStatePlayer2() {
-    return new GameState(this.getWinMovesPlayer2(), this.sourov, false, true, this.sourov);
+    return new GameState(this.getWinMovesPlayer2(), this.sourov, false, true);
   }
 
-  private void makeGameDraw() throws PositionOccupiedException {
+  private void makeGameDraw() throws PositionOccupiedException, InvalidMoveException {
     this.game.movePlayed(1);
     this.game.movePlayed(5);
     this.game.movePlayed(2);
@@ -100,7 +100,7 @@ public class GameTest {
     this.game.movePlayed(8);
   }
 
-  private void makeGameWinPlayer1() throws PositionOccupiedException {
+  private void makeGameWinPlayer1() throws PositionOccupiedException, InvalidMoveException {
     this.game.movePlayed(1);
     this.game.movePlayed(3);
     this.game.movePlayed(7);
@@ -110,7 +110,7 @@ public class GameTest {
     this.game.movePlayed(8);
   }
 
-  private void makeGameWinPlayer2() throws PositionOccupiedException {
+  private void makeGameWinPlayer2() throws PositionOccupiedException, InvalidMoveException {
     this.game.movePlayed(2);
     this.game.movePlayed(1);
     this.game.movePlayed(3);
@@ -120,39 +120,47 @@ public class GameTest {
   }
 
   @Test
-  void shouldUpdateTheGameWhenCurrentPlayerPlaysAMove() throws PositionOccupiedException {
+  void shouldUpdateTheGameWhenCurrentPlayerPlaysAMove() throws PositionOccupiedException, InvalidMoveException {
     GameState actualGameState = this.getFirstGameState();
     this.game.movePlayed(1);
     assertEquals(actualGameState, this.game.gameState());
   }
 
   @Test
-  void shouldGiveTheGameStateAsDraw() throws PositionOccupiedException {
+  void shouldGiveTheGameStateAsDraw() throws PositionOccupiedException, InvalidMoveException {
     GameState actualGameState = this.getDrawGameState();
     this.makeGameDraw();
     assertEquals(actualGameState, this.game.gameState());
   }
 
   @Test
-  void shouldGiveTheWinningGameStateWhenPlayer1Wins() throws PositionOccupiedException {
+  void shouldGiveTheWinningGameStateWhenPlayer1Wins() throws PositionOccupiedException, InvalidMoveException {
     GameState actualGameState = this.getWinGameStatePlayer1();
     this.makeGameWinPlayer1();
     assertEquals(actualGameState, this.game.gameState());
   }
 
   @Test
-  void shouldGiveTheWinningGameStateWhenPlayer2Wins() throws PositionOccupiedException {
+  void shouldGiveTheWinningGameStateWhenPlayer2Wins() throws PositionOccupiedException, InvalidMoveException {
     GameState actualGameState = this.getWinGameStatePlayer2();
     this.makeGameWinPlayer2();
     assertEquals(actualGameState, this.game.gameState());
   }
 
   @Test
-  void shouldThrowAnInvalidMoveException() {
+  void shouldThrowAnPositionOccupiedExceptionException() {
     PositionOccupiedException e = assertThrows(PositionOccupiedException.class, () -> {
       this.game.movePlayed(1);
       this.game.movePlayed(1);
     });
     assertEquals("Position Already Occupied", e.getMessage());
+  }
+
+  @Test
+  void shouldThrowAnInvalidMoveException() {
+    InvalidMoveException e = assertThrows(InvalidMoveException.class, () -> {
+      this.game.movePlayed(10);
+    });
+    assertEquals("Invalid Move", e.getMessage());
   }
 }

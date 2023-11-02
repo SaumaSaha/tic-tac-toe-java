@@ -8,10 +8,4 @@ public class PositionOccupiedException extends Throwable {
     this.position = position;
   }
 
-  @Override
-  public String toString() {
-    return "PositionOccupiedException{" +
-        "position=" + this.position +
-        '}';
-  }
 }

@@ -5,7 +5,6 @@ import io.github.saumasaha.myarraylist.MyArrayList;
 public class Game {
   private final MyArrayList<Integer[]> winningCombinations;
   private int maxMoves;
-  private Player winner;
   private Players players;
   private boolean gameDraw;
   private boolean gameWon;
@@ -27,12 +26,15 @@ public class Game {
     this.maxMoves = 9;
     this.gameDraw = false;
     this.gameWon = false;
-    this.winner = null;
     this.players = players;
   }
 
-  private boolean isInvalidMove(int position) {
+  private boolean isPositionFilled(int position) {
     return this.players.allMovesPlayed().some(move -> move.position() == position);
+  }
+
+  private boolean isInvalidMove(int position) {
+    return position < 1 || position > 9;
   }
 
   private boolean isGameDraw() {
@@ -44,12 +46,16 @@ public class Game {
   }
 
   public GameState gameState() {
-    return new GameState(this.players.allMovesPlayed(), this.players.currentPlayer(), this.gameDraw, this.gameWon, this.winner);
+    return new GameState(this.players.allMovesPlayed(), this.players.currentPlayer(), this.gameDraw, this.gameWon);
   }
 
-  public void movePlayed(int position) throws PositionOccupiedException {
-    if (this.isInvalidMove(position)) {
+  public void movePlayed(int position) throws PositionOccupiedException, InvalidMoveException {
+    if (this.isPositionFilled(position)) {
       throw new PositionOccupiedException(position);
+    }
+
+    if (this.isInvalidMove(position)) {
+      throw new InvalidMoveException(position);
     }
 
     this.players.registerMove(position);
@@ -61,7 +67,6 @@ public class Game {
     }
 
     if (this.hasWon()) {
-      this.winner = this.players.currentPlayer();
       this.gameWon = true;
       this.gameDraw = false;
       return;
