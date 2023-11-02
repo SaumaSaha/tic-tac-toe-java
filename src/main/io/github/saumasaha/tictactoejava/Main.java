@@ -9,7 +9,8 @@ public class Main {
     Players players = new Players(sauma, sourov);
     Game game = new Game(players);
     GameView view = new GameView();
-    GameController controller = new GameController(game, new Scanner(System.in), view);
+    InputController inputController = new InputController(new Scanner(System.in));
+    GameController controller = new GameController(game, inputController, view);
     controller.start();
   }
 }

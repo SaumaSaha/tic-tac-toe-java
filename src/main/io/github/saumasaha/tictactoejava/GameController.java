@@ -1,15 +1,13 @@
 package io.github.saumasaha.tictactoejava;
 
-import java.util.Scanner;
-
 public class GameController {
   private final Game game;
-  private final Scanner scanner;
+  private final InputController inputController;
   private final GameView view;
 
-  public GameController(Game game, Scanner scanner, GameView view) {
+  public GameController(Game game, InputController inputController, GameView view) {
     this.game = game;
-    this.scanner = scanner;
+    this.inputController = inputController;
     this.view = view;
   }
 
@@ -19,8 +17,7 @@ public class GameController {
     this.view.render(this.game.gameState());
 
     while (!this.game.gameState().gameWon() && !this.game.gameState().gameDraw()) {
-      System.out.print("Enter position[1-9]: ");
-      int position = this.scanner.nextInt();
+      int position = this.inputController.takeInput();
 
       try {
         this.game.movePlayed(position);
