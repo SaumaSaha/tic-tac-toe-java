@@ -19,7 +19,7 @@ public class GameController {
     this.view.render(this.game.gameState());
 
     while (!this.game.gameState().gameWon() && !this.game.gameState().gameDraw()) {
-      System.out.print("Enter position: ");
+      System.out.print("Enter position[1-9]: ");
       int position = this.scanner.nextInt();
 
       try {
