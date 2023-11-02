@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
   private Player player;
@@ -42,7 +42,20 @@ public class PlayerTest {
   @Test
   void shouldGiveAllTheMovesPlayedByThePlayer() {
     this.addMoves();
-    MyArrayList<Integer> moves = this.getMoves();
-    assertEquals(this.player.movesPlayed(), moves);
+    MyArrayList<Integer> actualMoves = this.getMoves();
+    MyArrayList<Integer> expectedMoves = this.player.movesPlayed().map(Move::position);
+    assertEquals(expectedMoves, actualMoves);
+  }
+
+  @Test
+  void shouldGiveTrueIfThePlayerHasPlayedTheSetOfMovesGiven() {
+    this.addMoves();
+    assertTrue(this.player.hasPlayed(new Integer[]{1, 3, 5}));
+  }
+
+  @Test
+  void shouldGiveFalseIfThePlayerHasNotPlayedAnyOfTheMovesFromTheSetOfMovesGiven() {
+    this.addMoves();
+    assertFalse(this.player.hasPlayed(new Integer[]{1, 2, 3}));
   }
 }

@@ -20,4 +20,24 @@ public class Players {
   public void changeCurrentPlayer() {
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.size();
   }
+
+  public MyArrayList<Move> allMovesPlayed() {
+    MyArrayList<Move> movesPlayed = new MyArrayList<>();
+
+    for (Player player : this.players) {
+      movesPlayed.addAll(player.movesPlayed());
+    }
+
+    return movesPlayed;
+  }
+
+  public void registerMove(int position) {
+    Player currentPlayer = this.currentPlayer();
+    currentPlayer.addMove(position);
+  }
+
+  public boolean isWinner(MyArrayList<Integer[]> winningCombinations) {
+    Player currentPlayer = this.players.get(this.currentPlayerIndex);
+    return winningCombinations.some(currentPlayer::hasPlayed);
+  }
 }
