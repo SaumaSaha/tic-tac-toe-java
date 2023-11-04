@@ -1,5 +1,7 @@
 package io.github.saumasaha.tictactoejava;
 
+import java.util.InputMismatchException;
+
 public class GameController {
   private final Game game;
   private final InputController inputController;
@@ -12,16 +14,16 @@ public class GameController {
   }
 
   public void start() {
-//    Integer[] moves = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
-
     this.view.render(this.game.gameState());
 
     while (!this.game.gameState().gameWon() && !this.game.gameState().gameDraw()) {
-      int position = this.inputController.takeInput();
-
       try {
+        int position = this.inputController.takeInput();
         this.game.movePlayed(position);
       } catch (PositionOccupiedException | InvalidMoveException e) {
+        this.view.renderError(e.getMessage());
+      } catch (InputMismatchException e) {
+        this.inputController.consumeNull();
         this.view.renderError(e.getMessage());
       }
 

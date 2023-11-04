@@ -18,7 +18,7 @@ public class PlayersTest {
     this.players = new Players(this.sauma, this.sourov);
   }
 
-  private void registerMoves() {
+  private void registerMoves() throws PositionOccupiedException {
     this.players.registerMove(1);
     this.players.registerMove(3);
     this.players.registerMove(5);
@@ -29,7 +29,7 @@ public class PlayersTest {
   }
 
 
-  private void registerWinningMoves() {
+  private void registerWinningMoves() throws PositionOccupiedException {
     this.players.registerMove(1);
     this.players.registerMove(2);
     this.players.registerMove(3);
@@ -74,21 +74,21 @@ public class PlayersTest {
   }
 
   @Test
-  void shouldGiveAllTheMovesPlayedByThePlayers() {
+  void shouldGiveAllTheMovesPlayedByThePlayers() throws PositionOccupiedException {
     MyArrayList<Move> moves = this.getMovesList();
     this.registerMoves();
     assertEquals(this.players.allMovesPlayed(), moves);
   }
 
   @Test
-  void shouldGiveTrueIfThePlayerWon() {
+  void shouldGiveTrueIfThePlayerWon() throws PositionOccupiedException {
     this.registerWinningMoves();
     MyArrayList<Integer[]> winningCombinations = this.getWinningCombinations();
     assertTrue(this.players.isWinner(winningCombinations));
   }
 
   @Test
-  void shouldGiveFalseIfThePlayerHasNotWon() {
+  void shouldGiveFalseIfThePlayerHasNotWon() throws PositionOccupiedException {
     this.registerMoves();
     MyArrayList<Integer[]> winningCombinations = this.getWinningCombinations();
     assertFalse(this.players.isWinner(winningCombinations));

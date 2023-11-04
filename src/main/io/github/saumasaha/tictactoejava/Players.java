@@ -13,6 +13,10 @@ public class Players {
     this.currentPlayerIndex = 0;
   }
 
+  private boolean isPositionFilled(int position) {
+    return this.allMovesPlayed().some(move -> move.position() == position);
+  }
+
   public Player currentPlayer() {
     return this.players.get(this.currentPlayerIndex);
   }
@@ -31,9 +35,11 @@ public class Players {
     return movesPlayed;
   }
 
-  public void registerMove(int position) {
-    Player currentPlayer = this.currentPlayer();
-    currentPlayer.addMove(position);
+  public void registerMove(int position) throws PositionOccupiedException {
+    if (this.isPositionFilled(position))
+      throw new PositionOccupiedException(position);
+
+    this.currentPlayer().addMove(position);
   }
 
   public boolean isWinner(MyArrayList<Integer[]> winningCombinations) {

@@ -123,28 +123,28 @@ public class GameTest {
   void shouldUpdateTheGameWhenCurrentPlayerPlaysAMove() throws PositionOccupiedException, InvalidMoveException {
     GameState actualGameState = this.getFirstGameState();
     this.game.movePlayed(1);
-    assertEquals(actualGameState, this.game.gameState());
+    assertEquals(this.game.gameState(), actualGameState);
   }
 
   @Test
   void shouldGiveTheGameStateAsDraw() throws PositionOccupiedException, InvalidMoveException {
     GameState actualGameState = this.getDrawGameState();
     this.makeGameDraw();
-    assertEquals(actualGameState, this.game.gameState());
+    assertEquals(this.game.gameState(), actualGameState);
   }
 
   @Test
   void shouldGiveTheWinningGameStateWhenPlayer1Wins() throws PositionOccupiedException, InvalidMoveException {
     GameState actualGameState = this.getWinGameStatePlayer1();
     this.makeGameWinPlayer1();
-    assertEquals(actualGameState, this.game.gameState());
+    assertEquals(this.game.gameState(), actualGameState);
   }
 
   @Test
   void shouldGiveTheWinningGameStateWhenPlayer2Wins() throws PositionOccupiedException, InvalidMoveException {
     GameState actualGameState = this.getWinGameStatePlayer2();
     this.makeGameWinPlayer2();
-    assertEquals(actualGameState, this.game.gameState());
+    assertEquals(this.game.gameState(), actualGameState);
   }
 
   @Test
@@ -158,9 +158,7 @@ public class GameTest {
 
   @Test
   void shouldThrowAnInvalidMoveException() {
-    InvalidMoveException e = assertThrows(InvalidMoveException.class, () -> {
-      this.game.movePlayed(10);
-    });
+    InvalidMoveException e = assertThrows(InvalidMoveException.class, () -> this.game.movePlayed(10));
     assertEquals("Invalid Move", e.getMessage());
   }
 }

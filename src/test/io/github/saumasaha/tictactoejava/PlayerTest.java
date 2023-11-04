@@ -35,7 +35,7 @@ public class PlayerTest {
   }
 
   @Test
-  void shouldGiveTheSymbolThePlayerPlays() {
+  void shouldGiveTheSymbolThePlayer() {
     assertEquals(this.player.getSymbol(), Symbol.X);
   }
 
