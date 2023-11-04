@@ -13,19 +13,27 @@ public class GameController {
     this.view = view;
   }
 
+  private boolean isGameOver() {
+    return !this.game.gameState().gameWon() && !this.game.gameState().gameDraw();
+  }
+
+  private void playMove() {
+    try {
+      int position = this.inputController.takeInput();
+      this.game.movePlayed(position);
+    } catch (PositionOccupiedException | InvalidMoveException e) {
+      this.view.renderError(e.getMessage());
+    } catch (InputMismatchException e) {
+      this.inputController.consumeNull();
+      this.view.renderError(e.getMessage());
+    }
+  }
+
   public void start() {
     this.view.render(this.game.gameState());
 
-    while (!this.game.gameState().gameWon() && !this.game.gameState().gameDraw()) {
-      try {
-        int position = this.inputController.takeInput();
-        this.game.movePlayed(position);
-      } catch (PositionOccupiedException | InvalidMoveException e) {
-        this.view.renderError(e.getMessage());
-      } catch (InputMismatchException e) {
-        this.inputController.consumeNull();
-        this.view.renderError(e.getMessage());
-      }
+    while (this.isGameOver()) {
+      this.playMove();
 
       GameState gamestate = this.game.gameState();
       if (gamestate.gameDraw() || gamestate.gameWon()) {

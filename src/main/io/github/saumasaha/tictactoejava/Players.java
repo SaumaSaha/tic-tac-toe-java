@@ -2,14 +2,14 @@ package io.github.saumasaha.tictactoejava;
 
 import io.github.saumasaha.myarraylist.MyArrayList;
 
+import java.util.List;
+
 public class Players {
   MyArrayList<Player> players;
   private int currentPlayerIndex;
 
   public Players(Player player1, Player player2) {
-    this.players = new MyArrayList<>();
-    this.players.add(player1);
-    this.players.add(player2);
+    this.players = new MyArrayList<>(List.of(player1, player2));
     this.currentPlayerIndex = 0;
   }
 
